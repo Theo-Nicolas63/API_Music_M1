@@ -1,10 +1,10 @@
 package internal
 
-// @title        middleware/example
+// @title        spotify/songs
 // @version      1.0.0
-// @description  API to manage collections.
+// @description  API to manage spotify songs.
 
-// @contact.name   Justine Bachelard.
+// @contact.name   dana.
 // @contact.email  justine.bachelard@ext.uca.fr
 
 // @schemes   http

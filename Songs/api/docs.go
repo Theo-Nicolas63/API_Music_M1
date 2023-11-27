@@ -10,28 +10,28 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Justine Bachelard.",
-            "email": "justine.bachelard@ext.uca.fr"
+            "name": ".",
+            "email": "X"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/collections": {
+        "/songs": {
             "get": {
-                "description": "Get collections.",
+                "description": "Get songs.",
                 "tags": [
-                    "collections"
+                    "songs"
                 ],
-                "summary": "Get collections.",
+                "summary": "Get songs.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Collection"
+                                "$ref": "#/definitions/models.Song"
                             }
                         }
                     },
@@ -41,17 +41,17 @@ const docTemplate = `{
                 }
             }
         },
-        "/collections/{id}": {
+        "/songs/{id}": {
             "get": {
-                "description": "Get a collection.",
+                "description": "Get a song.",
                 "tags": [
-                    "collections"
+                    "songs"
                 ],
-                "summary": "Get a collection.",
+                "summary": "Get a song.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Collection UUID formatted ID",
+                        "description": "Song UUID formatted ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -61,7 +61,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Collection"
+                            "$ref": "#/definitions/models.Song"
                         }
                     },
                     "422": {
@@ -75,7 +75,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Collection": {
+        "models.Song": {
             "type": "object",
             "properties": {
                 "content": {
@@ -95,8 +95,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{"http"},
-	Title:            "middleware/example",
-	Description:      "API to manage collections.",
+	Title:            "spotify/songs",
+	Description:      "API to manage spotify songs.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
