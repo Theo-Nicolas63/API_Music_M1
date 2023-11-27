@@ -1,29 +1,29 @@
-package collections
+package ratings
 
 import (
 	"encoding/json"
 	"middleware/example/internal/models"
-	"middleware/example/internal/repositories/collections"
+	"middleware/example/internal/repositories/ratings"
 	"net/http"
 
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 )
 
-// GetCollection
-// @Tags         collections
-// @Summary      Get a collection.
-// @Description  Get a collection.
-// @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Collection
+// Getrating
+// @Tags         ratings
+// @Summary      Get a rating.
+// @Description  Get a rating.
+// @Param        id           	path      string  true  "rating UUID formatted ID"
+// @Success      200            {object}  models.rating
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /collections/{id} [get]
-func GetCollection(w http.ResponseWriter, r *http.Request) {
+// @Router       /ratings/{id} [get]
+func Getrating(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID)
+	ratingId, _ := ctx.Value("ratingId").(uuid.UUID)
 
-	collection, err := collections.GetCollectionById(collectionId)
+	rating, err := ratings.GetratingById(ratingId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -38,7 +38,7 @@ func GetCollection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collection)
+	body, _ := json.Marshal(rating)
 	_, _ = w.Write(body)
 	return
 }

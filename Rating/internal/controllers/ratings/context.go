@@ -1,4 +1,4 @@
-package collections
+package ratings
 
 import (
 	"context"
