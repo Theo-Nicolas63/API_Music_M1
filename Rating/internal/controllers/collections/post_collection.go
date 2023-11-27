@@ -2,34 +2,37 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/gofrs/uuid"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/repositories/collections"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 func PostCollection(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID)
+    var collection models.Collection
+    err := json.NewDecoder(r.Body).Decode(&collection)
+    if err != nil {
+        logrus.Errorf("error : %s", err.Error())
+        w.WriteHeader(http.StatusInternalServerError)
+        return
+    }
 
-	//collection, err := collections.GetCollectionById(collectionId)
-	if err != nil {
-		logrus.Errorf("error : %s", err.Error())
-		customError, isCustom := err.(*models.CustomError)
-		if isCustom {
-			w.WriteHeader(customError.Code)
-			body, _ := json.Marshal(customError)
-			_, _ = w.Write(body)
-		} else {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		return
-	}
+    collection, err = PostCollection(&collection)
+    if err != nil {
+        logrus.Errorf("error : %s", err.Error())
+        customError, isCustom := err.(*models.CustomError)
+        if isCustom {
+            w.WriteHeader(customError.Code)
+            body, _ := json.Marshal(customError)
+            _, _ = w.Write(body)
+        } else {
+            w.WriteHeader(http.StatusInternalServerError)
+        }
+        return
+    }
 
-	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collection)
-	_, _ = w.Write(body)
-	return
+    w.WriteHeader(http.StatusOK)
+    body, _ := json.Marshal(collection)
+    _, _ = w.Write(body)
+    return
 }
-

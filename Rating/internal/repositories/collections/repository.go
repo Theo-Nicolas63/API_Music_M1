@@ -48,3 +48,16 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 	}
 	return &collection, err
 }
+
+func PostCollection(collection *models.Collection) (*models.Collection, error) {
+    db, err := helpers.OpenDB()
+    if err != nil {
+        return nil, err
+    }
+    _, err = db.Exec("INSERT INTO collections (content) VALUES (?)", collection.Content)
+    helpers.CloseDB(db)
+    if err != nil {
+        return nil, err
+    }
+    return collection, err
+}

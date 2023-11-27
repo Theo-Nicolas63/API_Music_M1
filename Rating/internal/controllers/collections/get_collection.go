@@ -2,11 +2,12 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/gofrs/uuid"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/repositories/collections"
 	"net/http"
+
+	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 // GetCollection
@@ -41,4 +42,3 @@ func GetCollection(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(body)
 	return
 }
-

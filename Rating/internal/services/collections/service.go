@@ -44,3 +44,16 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 
 	return collection, err
 }
+
+func PostCollection(collection *models.Collection) (*models.Collection, error) {
+    collection, err := repository.PostCollection(collection)
+    if err != nil {
+        logrus.Errorf("error retrieving collections : %s", err.Error())
+        return nil, &models.CustomError{
+            Message: "Something went wrong",
+            Code:    500,
+        }
+    }
+
+    return collection, err
+}
