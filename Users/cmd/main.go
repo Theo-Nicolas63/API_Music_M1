@@ -12,7 +12,7 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	r.Route("/collections", func(r chi.Router) {
+	r.Route("/users", func(r chi.Router) {
 		r.Get("/", collections.GetCollections)
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(collections.Ctx)
@@ -30,7 +30,7 @@ func init() {
 		logrus.Fatalf("error while opening database : %s", err.Error())
 	}
 	schemes := []string{
-		`CREATE TABLE IF NOT EXISTS collections (
+		`CREATE TABLE IF NOT EXISTS users (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
 			content VARCHAR(255) NOT NULL
 		);`,

@@ -1,4 +1,4 @@
-package collections
+package repositories
 
 import (
 	"github.com/gofrs/uuid"
@@ -6,45 +6,45 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllUsers() ([]models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	rows, err := db.Query("SELECT * FROM collections")
+	rows, err := db.Query("SELECT * FROM Users")
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
 	}
 
 	// parsing datas in object slice
-	collections := []models.Collection{}
+	Users := []models.User{}
 	for rows.Next() {
-		var data models.Collection
+		var data models.User
 		err = rows.Scan(&data.Id, &data.Content)
 		if err != nil {
 			return nil, err
 		}
-		collections = append(collections, data)
+		Users = append(Users, data)
 	}
 	// don't forget to close rows
 	_ = rows.Close()
 
-	return collections, err
+	return Users, err
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
+func GetUserById(id uuid.UUID) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	row := db.QueryRow("SELECT * FROM collections WHERE id=?", id.String())
+	row := db.QueryRow("SELECT * FROM Users WHERE id=?", id.String())
 	helpers.CloseDB(db)
 
-	var collection models.Collection
-	err = row.Scan(&collection.Id, &collection.Content)
+	var User models.User
+	err = row.Scan(&User.Id, &User.Content)
 	if err != nil {
 		return nil, err
 	}
-	return &collection, err
+	return &User, err
 }

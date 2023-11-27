@@ -1,28 +1,28 @@
-package collections
+package controllers
 
 import (
 	"encoding/json"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/repositories/collections"
+	"middleware/example/internal/repositories/users"
 	"net/http"
 )
 
-// GetCollection
-// @Tags         collections
-// @Summary      Get a collection.
-// @Description  Get a collection.
-// @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Collection
+// GetUser
+// @Tags         User
+// @Summary      Get a User.
+// @Description  Get a User.
+// @Param        id           	path      string  true  "User UUID formatted ID"
+// @Success      200            {object}  models.User
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /collections/{id} [get]
-func GetCollection(w http.ResponseWriter, r *http.Request) {
+// @Router       /User/{id} [get]
+func GetUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID)
+	UserId, _ := ctx.Value("UserId").(uuid.UUID)
 
-	collection, err := collections.GetCollectionById(collectionId)
+	User, err := repositories.GetUserById(UserId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -37,7 +37,7 @@ func GetCollection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collection)
+	body, _ := json.Marshal(User)
 	_, _ = w.Write(body)
 	return
 }
