@@ -7,4 +7,5 @@ import (
 type Song struct {
 	Id      *uuid.UUID `json:"id"`
 	Content string     `json:"content"`
+	Singer  string     `json:"singer"`
 }
