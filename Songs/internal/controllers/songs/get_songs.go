@@ -14,7 +14,7 @@ import (
 // @Description  Get collections.
 // @Success      200            {array}  models.Collection
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
+// @Router       /songs [get]
 func GetSongs(w http.ResponseWriter, _ *http.Request) {
 	// calling service
 	collections, err := songs.GetAllSongs()

@@ -48,3 +48,24 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	}
 	return &song, err
 }
+
+// AddSong ajoute une nouvelle chanson à la base de données
+func AddSong(song models.Song) (*models.Song, error) {
+	db, err := helpers.OpenDB()
+	randomUUID, err := uuid.NewV4()
+
+	if err != nil {
+		return nil, err
+	}
+	_, err = db.Exec("INSERT INTO songs (id, content) VALUES (?, ?)", randomUUID.String(), song.Content)
+	row := db.QueryRow("SELECT * FROM songs WHERE id = ?", randomUUID)
+	helpers.CloseDB(db)
+	err = row.Scan(&song.Id, &song.Content)
+	if err != nil {
+		return &song, err
+	}
+
+	//song, _ = GetSongById(randomUUID)
+
+	return &song, err
+}
