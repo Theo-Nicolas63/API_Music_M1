@@ -3,11 +3,12 @@ package ratings
 import (
 	"database/sql"
 	"errors"
-	"github.com/gofrs/uuid"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	repository "middleware/example/internal/repositories/ratings"
 	"net/http"
+
+	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 func GetAllratings() ([]models.Rating, error) {
@@ -46,7 +47,9 @@ func GetratingById(id uuid.UUID) (*models.Rating, error) {
 }
 
 func PostRating(rating *models.Rating) (*models.Rating, error) {
+
 	rating, err := repository.Postrating(rating)
+
 	if err != nil {
 		logrus.Errorf("error retrieving ratings : %s", err.Error())
 		return nil, &models.CustomError{

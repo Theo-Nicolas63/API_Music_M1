@@ -2,10 +2,11 @@ package ratings
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/services/ratings"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Getratings

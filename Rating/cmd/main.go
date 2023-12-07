@@ -1,18 +1,20 @@
 package main
 
 import (
-	"github.com/go-chi/chi/v5"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/controllers/ratings"
 	"middleware/example/internal/helpers"
 	_ "middleware/example/internal/models"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
 	r := chi.NewRouter()
 
 	r.Route("/ratings", func(r chi.Router) {
+		r.Post("/", ratings.Postrating)
 		r.Get("/", ratings.GetRatings)
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(ratings.Ctx)
@@ -22,6 +24,7 @@ func main() {
 
 	logrus.Info("[INFO] Web server started. Now listening on *:8080")
 	logrus.Fatalln(http.ListenAndServe(":8080", r))
+
 }
 
 func init() {
@@ -32,6 +35,8 @@ func init() {
 	schemes := []string{
 		`CREATE TABLE IF NOT EXISTS ratings (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
+			id_user VARCHAR(255) NOT NULL,
+			id_song VARCHAR(255) NOT NULL,
 			content VARCHAR(255) NOT NULL
 		);`,
 	}

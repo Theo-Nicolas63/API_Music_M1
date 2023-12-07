@@ -2,6 +2,7 @@ package ratings
 
 import (
 	"encoding/json"
+	"fmt"
 	"middleware/example/internal/models"
 	"middleware/example/internal/repositories/ratings"
 	"net/http"
@@ -22,7 +23,7 @@ import (
 func Getrating(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	ratingId, _ := ctx.Value("ratingId").(uuid.UUID)
-
+	fmt.Println(ratingId)
 	rating, err := ratings.GetratingById(ratingId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
