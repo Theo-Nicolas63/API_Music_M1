@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/controllers/users"
 	"middleware/example/internal/helpers"
@@ -32,8 +31,9 @@ func init() {
 	}
 	schemes := []string{
 		`CREATE TABLE IF NOT EXISTS users (
-			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
-			content VARCHAR(255) NOT NULL
+			Id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
+			Name VARCHAR(255) NOT NULL,
+			MusicLiked VARCHAR(255) NOT NULL
 		);`,
 	}
 	for _, scheme := range schemes {
