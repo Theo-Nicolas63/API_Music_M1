@@ -15,7 +15,7 @@ import (
 // @Accept       json
 // @Produce      json
 // @Param        song body     models.Song  true  "Song to add"
-// @Success      201    {object}  string     "Successfully added"
+// @Success      201    {object}  string     Name of the added song
 // @Failure      400    "Invalid input"
 // @Failure      500    "Something went wrong"
 // @Router       /songs [post]
@@ -25,18 +25,11 @@ func PostSong(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&newSong)
 
 	if err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		logrus.Error(w, "Invalid request body", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	// Décodage du payload JSON entrant
-	/*if err := json.NewDecoder(r.Body).Decode(&newSong); err != nil {
-		logrus.Errorf("error decoding song: %s", err.Error())
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
-		return
-	}*/
-
-	song, err := songs.AddSong(newSong)
+	song, err := songs.AddSong(&newSong)
 	if err != nil {
 		logrus.Errorf("error adding song: %s", err.Error())
 		http.Error(w, "Failed to add the song", http.StatusInternalServerError)

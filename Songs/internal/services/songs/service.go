@@ -44,3 +44,17 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 
 	return song, err
 }
+
+func AddSong(song *models.Song) (*models.Song, error) {
+	song, err := repository.AddSong(song)
+
+	if err != nil {
+		logrus.Errorf("error retrieving songs: %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+
+	}
+	return nil, err
+}
