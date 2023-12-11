@@ -62,3 +62,29 @@ func Postrating(rating *models.Rating) (*models.Rating, error) {
 	}
 	return rating, err
 }
+
+func Putrating(rating *models.Rating) (*models.Rating, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	_, err = db.Exec("UPDATE ratings SET id_user=?, id_song=?, content=? WHERE id=?", rating.User_id.String(), rating.Song_id.String(), rating.Content, rating.Id.String())
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+	return rating, err
+}
+
+func Deleterating(id uuid.UUID) (*models.Rating, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	_, err = db.Exec("DELETE FROM ratings WHERE id=?", id.String())
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+	return nil, err
+}

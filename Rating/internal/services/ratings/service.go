@@ -60,3 +60,33 @@ func PostRating(rating *models.Rating) (*models.Rating, error) {
 
 	return rating, err
 }
+
+func PutRating(rating *models.Rating) (*models.Rating, error) {
+
+	rating, err := repository.Putrating(rating)
+
+	if err != nil {
+		logrus.Errorf("error retrieving ratings : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return rating, err
+}
+
+func DeleteRating(id uuid.UUID) (*models.Rating, error) {
+
+	rating, err := repository.Deleterating(id)
+
+	if err != nil {
+		logrus.Errorf("error retrieving ratings : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return rating, err
+}
