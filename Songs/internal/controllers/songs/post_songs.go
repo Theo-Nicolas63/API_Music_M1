@@ -29,7 +29,8 @@ func PostSong(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	song, err := songs.AddSong(&newSong)
+	song, err := songs.PostSong(&newSong)
+
 	if err != nil {
 		logrus.Errorf("error adding song: %s", err.Error())
 		http.Error(w, "Failed to add the song", http.StatusInternalServerError)
@@ -39,4 +40,5 @@ func PostSong(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	body, _ := json.Marshal(song)
 	_, _ = w.Write(body)
+	return
 }

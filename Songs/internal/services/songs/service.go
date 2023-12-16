@@ -5,7 +5,9 @@ import (
 	"errors"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
+	//"middleware/example/internal/controllers/songs"
 	"middleware/example/internal/models"
+	//"middleware/example/internal/services/songs"
 	repository "middleware/example/internal/repositories/songs"
 	"net/http"
 )
@@ -45,16 +47,53 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return song, err
 }
 
-func AddSong(song *models.Song) (*models.Song, error) {
-	song, err := repository.AddSong(song)
-
+func GetSongByName(name string) (*models.Song, error) {
+	song, err := repository.GetSongByName(name)
 	if err != nil {
-		logrus.Errorf("error retrieving songs: %s", err.Error())
+		if errors.As(err, &sql.ErrNoRows) {
+			return nil, &models.CustomError{
+				Message: "song not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving songs : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
-
 	}
-	return nil, err
+
+	return song, err
+}
+
+func PostSong(song *models.Song) (*models.Song, error) {
+	song, err := repository.PostSong(song)
+
+	if err != nil {
+		logrus.Errorf("error retrieving songs : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return song, err
+}
+func DeleteSongById(id uuid.UUID) (*models.Song, error) {
+	song, err := repository.DeleteSongById(id)
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return nil, &models.CustomError{
+				Message: "song not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving songs : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return song, err
 }

@@ -18,7 +18,14 @@ func main() {
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(songs.Ctx)
 			r.Get("/", songs.GetSong)
+			r.Delete("/", songs.DeleteSongById)
 		})
+
+		r.Get(
+			"/name/{name}",
+			songs.GetSongByName,
+		)
+
 	})
 
 	logrus.Info("[INFO] Web server started. Now listening on *:8080")
