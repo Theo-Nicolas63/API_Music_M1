@@ -93,3 +93,17 @@ func DeleteSongById(id uuid.UUID) (*models.Song, error) {
 	}
 	return nil, err
 }
+
+func PutSong(id uuid.UUID) (*models.Song, error) {
+	var song *models.Song
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	_, err = db.Exec("UPDATE songs SET name=?, singer=? WHERE id=?", song.Name, song.Singer, id.String())
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+	return song, err
+}

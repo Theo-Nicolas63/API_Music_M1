@@ -9,21 +9,11 @@ import (
 	"net/http"
 )
 
-// GetSong
-// @Tags         songs
-// @Summary      Get a Song.
-// @Description  Get a Song.
-// @Param        id           	path      string  true  "Song UUID formatted ID"
-// @Success      200            {object}  models.Song
-// @Failure      422            "Cannot parse id"
-// @Failure      500            "Something went wrong"
-// @Router       /songs/{id} [get]
-
-func GetSong(w http.ResponseWriter, r *http.Request) {
+func PutSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	songId, _ := ctx.Value("songId").(uuid.UUID)
 
-	song, err := songs.GetSongById(songId)
+	song, err := songs.PutSong(songId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
