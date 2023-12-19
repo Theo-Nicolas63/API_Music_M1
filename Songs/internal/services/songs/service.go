@@ -98,8 +98,8 @@ func DeleteSongById(id uuid.UUID) (*models.Song, error) {
 	return song, err
 }
 
-func PutSong(song *models.Song) (*models.Song, error) {
-	song, err := repository.PutSong(song)
+func PutSong(id uuid.UUID, newName string, newSinger string) (*models.Song, error) {
+	song, err := repository.PutSong(id, newName, newSinger)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
 			return nil, &models.CustomError{
