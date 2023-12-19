@@ -71,3 +71,20 @@ func PostUser(Users *models.User) (*models.User, error) {
 	}
 	return Users, err
 }
+
+func DeleteUser(Id uuid.UUID) (*models.User, error) {
+	db, err := helpers.OpenDB()
+
+	if err != nil {
+		helpers.CloseDB(db)
+		return nil, err
+	}
+
+	_, err = db.Exec("DELETE FROM Users WHERE id=?", Id.String())
+	helpers.CloseDB(db)
+
+	if err != nil {
+		return nil, err
+	}
+	return nil, err
+}

@@ -58,3 +58,26 @@ func PostUser(Users *models.User) (*models.User, error) {
 
 	return Users, err
 }
+
+func DeleteUser(Id uuid.UUID) (*models.User, error) {
+
+	Users, err := repository.DeleteUser(Id)
+
+	if err != nil {
+
+		if errors.As(err, &sql.ErrNoRows) {
+			return nil, &models.CustomError{
+				Message: "User not found : Can't delete it",
+				Code:    http.StatusNotFound,
+			}
+		}
+
+		logrus.Errorf("error retrieving Users : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return Users, err
+}
