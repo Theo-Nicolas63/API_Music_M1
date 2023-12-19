@@ -10,6 +10,7 @@ func GetAllUsers() ([]models.User, error) {
 	db, err := helpers.OpenDB()
 
 	if err != nil {
+		helpers.CloseDB(db)
 		return nil, err
 	}
 	rows, err := db.Query("SELECT * FROM Users")
@@ -22,7 +23,7 @@ func GetAllUsers() ([]models.User, error) {
 	Users := []models.User{}
 	for rows.Next() {
 		var data models.User
-		err = rows.Scan(&data.Id, &data.Name)
+		err = rows.Scan(&data.Id, &data.Name, &data.MusicLiked)
 		if err != nil {
 			return nil, err
 		}
@@ -38,29 +39,35 @@ func GetAllUsers() ([]models.User, error) {
 func GetUserById(id uuid.UUID) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
+		helpers.CloseDB(db)
 		return nil, err
 	}
 	row := db.QueryRow("SELECT * FROM Users WHERE id=?", id.String())
 	helpers.CloseDB(db)
 
-	var User models.User
-	err = row.Scan(&User.Id, &User.Name)
+	var Users models.User
+	err = row.Scan(&Users.Id, &Users.Name, &Users.MusicLiked)
 	if err != nil {
 		return nil, err
 	}
-	return &User, err
+	return &Users, err
 }
 
-func PostUser(User models.User) (*models.User, error) {
+func PostUser(Users *models.User) (*models.User, error) {
 	db, err := helpers.OpenDB()
+
+	randomUUID, err := uuid.NewV4()
+
 	if err != nil {
+		helpers.CloseDB(db)
 		return nil, err
 	}
-	_, err = db.Exec("INSERT INTO Users (Id,Name,MusicLiked) VALUES (?,?,?)", User.Id.String(), User.Name, User.MusicLiked)
+
+	_, err = db.Exec("INSERT INTO Users (Id,Name,MusicLiked) VALUES (?,?,?)", randomUUID.String(), Users.Name, Users.MusicLiked)
 	helpers.CloseDB(db)
 
 	if err != nil {
 		return nil, err
 	}
-	return &User, err
+	return Users, err
 }

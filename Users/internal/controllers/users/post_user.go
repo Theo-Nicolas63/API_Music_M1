@@ -2,9 +2,10 @@ package users
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	services "middleware/example/internal/services/users"
+	"middleware/example/internal/services/users"
 	"net/http"
 )
 
@@ -16,11 +17,17 @@ import (
 // @Failure      500             "Something went wrong"
 // @Router       /users [get]
 
-func PostUsers(w http.ResponseWriter, _ *http.Request) {
+func PostUser(w http.ResponseWriter, r *http.Request) {
 	// calling service
 
 	//Scan JSON + recup variable user a metre dans fonction ci dessous
-	Users, err := services.PostUser()
+
+	var newUser models.User
+
+	err := json.NewDecoder(r.Body).Decode(&newUser)
+
+	fmt.Print(newUser)
+	user, err := services.PostUser(&newUser)
 
 	if err != nil {
 		// logging error
@@ -38,8 +45,8 @@ func PostUsers(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(Users)
+	w.WriteHeader(http.StatusCreated)
+	body, _ := json.Marshal(user)
 	_, _ = w.Write(body)
 	return
 }

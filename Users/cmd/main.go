@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/controllers/users"
 	"middleware/example/internal/helpers"
@@ -13,7 +14,7 @@ func main() {
 
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", users.GetUsers)
-		r.Post("/", users.GetUsers)
+		r.Post("/", users.PostUser)
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)

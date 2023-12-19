@@ -45,16 +45,10 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	return User, err
 }
 
-func PostUser(User models.User) (*models.User, error) {
+func PostUser(Users *models.User) (*models.User, error) {
 
-	User, err := repository.PostUser(User)
+	Users, err := repository.PostUser(Users)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
-			return nil, &models.CustomError{
-				Message: "User not found",
-				Code:    http.StatusNotFound,
-			}
-		}
 		logrus.Errorf("error retrieving Users : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
@@ -62,5 +56,5 @@ func PostUser(User models.User) (*models.User, error) {
 		}
 	}
 
-	return User, err
+	return Users, err
 }
