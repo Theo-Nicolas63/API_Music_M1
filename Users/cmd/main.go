@@ -17,6 +17,7 @@ func main() {
 		r.Post("/", users.PostUser)
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(users.Ctx)
+			r.Put("/", users.PutUser)
 			r.Get("/", users.GetUser)
 			r.Delete("/", users.DeleteUser)
 		})

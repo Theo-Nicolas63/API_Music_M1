@@ -81,3 +81,17 @@ func DeleteUser(Id uuid.UUID) (*models.User, error) {
 
 	return Users, err
 }
+
+func PutUser(Users *models.User) (*models.User, error) {
+
+	Users, err := repository.PutUser(Users)
+	if err != nil {
+		logrus.Errorf("error retrieving Users : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return Users, err
+}

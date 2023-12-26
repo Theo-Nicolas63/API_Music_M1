@@ -88,3 +88,16 @@ func DeleteUser(Id uuid.UUID) (*models.User, error) {
 	}
 	return nil, err
 }
+
+func PutUser(Users *models.User) (*models.User, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	_, err = db.Exec("UPDATE Users SET name=? WHERE id=?", Users.Name, Users.Id.String())
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+	return Users, err
+}
