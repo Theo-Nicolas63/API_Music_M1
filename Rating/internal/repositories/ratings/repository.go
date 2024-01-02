@@ -52,10 +52,14 @@ func GetratingById(id uuid.UUID) (*models.Rating, error) {
 
 func Postrating(rating *models.Rating) (*models.Rating, error) {
 	db, err := helpers.OpenDB()
+	randomUUID, err := uuid.NewV4()
+
 	if err != nil {
 		return nil, err
 	}
-	_, err = db.Exec("INSERT INTO ratings (id, id_user, id_song, content) VALUES (?,?, ?, ?)", rating.Id.String(), rating.User_id.String(), rating.Song_id.String(), rating.Content)
+
+	_, err = db.Exec("INSERT INTO ratings (id, id_user, id_song, content) VALUES (?,?, ?, ?)", randomUUID.String(), rating.User_id.String(), rating.Song_id.String(), rating.Content)
+
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
@@ -65,6 +69,7 @@ func Postrating(rating *models.Rating) (*models.Rating, error) {
 
 func Putrating(rating *models.Rating) (*models.Rating, error) {
 	db, err := helpers.OpenDB()
+
 	if err != nil {
 		return nil, err
 	}
