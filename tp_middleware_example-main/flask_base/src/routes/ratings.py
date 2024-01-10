@@ -186,6 +186,7 @@ def delete_rating(id):
 @ratings.route('/<id>', methods=['PUT'])
 #@login_required
 def put_rating(id):
+
     """
     ---
     delete:
@@ -222,4 +223,12 @@ def put_rating(id):
       tags:
           - ratings
     """
-    return ratings_services.modify_rating(id)
+
+    # parser le body
+    try:
+        update_rating = BaseRatingSchema().loads(json_data=request.data.decode('utf-8'))
+    except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+    
+    return ratings_services.modify_rating(id, update_rating)
