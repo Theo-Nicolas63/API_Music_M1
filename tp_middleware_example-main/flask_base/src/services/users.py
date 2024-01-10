@@ -17,6 +17,10 @@ def get_user(id):
     response = requests.request(method="GET", url=users_url+id)
     return response.json(), response.status_code
 
+def delete_user(id):
+    response = requests.request(method="DELETE", url=user_url+id)
+    if response.status_code != 204 :
+        return()
 
 def create_user(user_register):
     # on récupère le modèle utilisateur pour la BDD
