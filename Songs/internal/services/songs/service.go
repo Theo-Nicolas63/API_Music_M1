@@ -47,25 +47,6 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return song, err
 }
 
-func GetSongByName(name string) (*models.Song, error) {
-	song, err := repository.GetSongByName(name)
-	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
-			return nil, &models.CustomError{
-				Message: "song not found",
-				Code:    http.StatusNotFound,
-			}
-		}
-		logrus.Errorf("error retrieving songs : %s", err.Error())
-		return nil, &models.CustomError{
-			Message: "Something went wrong",
-			Code:    500,
-		}
-	}
-
-	return song, err
-}
-
 func PostSong(song *models.Song) (*models.Song, error) {
 	song, err := repository.PostSong(song)
 

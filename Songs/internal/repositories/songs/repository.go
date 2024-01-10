@@ -49,22 +49,6 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return &song, err
 }
 
-func GetSongByName(name string) (*models.Song, error) {
-	db, err := helpers.OpenDB()
-	if err != nil {
-		return nil, err
-	}
-	row := db.QueryRow("SELECT * FROM songs WHERE name=?", name)
-	helpers.CloseDB(db)
-
-	var song models.Song
-	err = row.Scan(&song.Id, &song.Name, &song.Singer)
-	if err != nil {
-		return nil, err
-	}
-	return &song, err
-}
-
 func PostSong(song *models.Song) (*models.Song, error) {
 	db, err := helpers.OpenDB()
 

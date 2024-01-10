@@ -22,11 +22,6 @@ func main() {
 			r.Put("/", songs.PutSong)
 		})
 
-		r.Get(
-			"/name/{name}",
-			songs.GetSongByName,
-		)
-
 	})
 
 	logrus.Info("[INFO] Web server started. Now listening on *:8080")
