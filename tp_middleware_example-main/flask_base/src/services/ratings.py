@@ -1,5 +1,6 @@
 import json
 import requests
+from flask import jsonify
 from sqlalchemy import exc
 from marshmallow import EXCLUDE
 from flask_login import current_user
@@ -30,7 +31,7 @@ def post_rating(new_rating):
 
 def delete_rating(id):
     response = requests.request(method="DELETE", url=ratings_url+id)
-    return response.status_code
+    return jsonify({'message' : 'Rating deleted successfully'}), 204
 
 
 

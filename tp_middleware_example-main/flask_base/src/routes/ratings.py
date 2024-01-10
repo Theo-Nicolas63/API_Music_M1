@@ -95,7 +95,7 @@ def get_ratings():
 def post_rating():
     """
     ---
-    get:
+    post:
       description: Posting rating
 
       responses:
@@ -189,7 +189,7 @@ def put_rating(id):
 
     """
     ---
-    delete:
+    put:
       description: puting a rating
       parameters:
         - in: path
