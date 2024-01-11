@@ -2,6 +2,8 @@ package ratings
 
 import (
 	"encoding/json"
+	"github.com/go-chi/chi/v5"
+	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/services/ratings"
@@ -10,6 +12,15 @@ import (
 
 func PutRating(w http.ResponseWriter, r *http.Request) {
 	var rating models.Rating
+	ratingIDstr := chi.URLParam(r, "id")
+	ratingID, err2 := uuid.FromString(ratingIDstr)
+
+	if err2 != nil {
+		logrus.Errorf("error parsing rating ID : %s", err2.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	err := json.NewDecoder(r.Body).Decode(&rating)
 
 	if err != nil {
@@ -17,7 +28,7 @@ func PutRating(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
+	rating.Id = &ratingID
 	_, err = ratings.PutRating(&rating)
 
 	if err != nil {
