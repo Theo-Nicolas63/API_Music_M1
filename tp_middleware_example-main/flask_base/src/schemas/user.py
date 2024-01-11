@@ -12,7 +12,7 @@ class UserSchema(Schema):
     def is_empty(obj):
         return (not obj.get("id") or obj.get("id") == "") and \
                (not obj.get("name") or obj.get("name") == "") and \
-               (not obj.get("username") or obj.get("username") == "") and \
+               (not obj.get("username") or obj.get("username") == "") # and \
                #(not obj.get("inscription_date") or obj.get("inscription_date") == "")
 
 
