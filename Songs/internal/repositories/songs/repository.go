@@ -96,12 +96,10 @@ func DeleteSongById(id uuid.UUID) (*models.Song, error) {
 
 func PutSong(id uuid.UUID, newName string, newSinger string) (*models.Song, error) {
 	db, err := helpers.OpenDB()
-	print("DebugR 1 \n ")
 	if err != nil {
 		return nil, err
 	}
 	_, err = db.Exec("UPDATE songs SET name=?, singer=? WHERE id=?", newName, newSinger, id.String())
-	print("DebugR 2 \n ")
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
