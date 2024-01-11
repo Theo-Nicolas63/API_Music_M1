@@ -2,14 +2,24 @@ package users
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/services/users"
 	"net/http"
+	"middleware/example/internal/services/users"
+	"github.com/go-chi/chi/v5"
+	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 func PutUser(w http.ResponseWriter, r *http.Request) {
 	var User models.User
+	UserIDstr := chi.URLParam(r, "id")
+	UserID, err2 := uuid.FromString(UserIDstr)
+
+	if err2 != nil {
+		logrus.Errorf("error parsing user ID : %s", err2.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	err := json.NewDecoder(r.Body).Decode(&User)
 
 	if err != nil {
@@ -17,6 +27,7 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	User.Id = &UserID
 
 	_, err = services.PutUser(&User)
 

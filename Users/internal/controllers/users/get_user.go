@@ -21,7 +21,6 @@ import (
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	UserId, _ := ctx.Value("UserId").(uuid.UUID)
-
 	User, err := repositories.GetUserById(UserId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
