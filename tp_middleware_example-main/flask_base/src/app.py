@@ -15,12 +15,9 @@ app = config_app()
 # register routes
 app.register_blueprint(auth_route, url_prefix="/")
 app.register_blueprint(users_route, url_prefix="/users")
-<<<<<<< HEAD
 app.register_blueprint(ratings_route, url_prefix="/ratings")
-=======
 app.register_blueprint(songs_route,url_prefix="/Songs")
 
->>>>>>> Songs
 
 # allows to generate Swagger doc for all documented functions
 with app.test_request_context():
