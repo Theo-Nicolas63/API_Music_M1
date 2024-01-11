@@ -1,0 +1,140 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Songs API",
+      "description": "API for managing songs"
+    },
+    "paths": {
+      "/songs": {
+        "get": {
+          "summary": "Get a list of all songs",
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Song"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new song",
+          "parameters": [
+            {
+              "name": "song",
+              "in": "body",
+              "description": "Song object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Song"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Song created successfully"
+            }
+          }
+        }
+      },
+      "/songs/{songId}": {
+        "get": {
+          "summary": "Get song by ID",
+          "parameters": [
+            {
+              "name": "songId",
+              "in": "path",
+              "type": "integer",
+              "required": true,
+              "description": "ID of the song"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "$ref": "#/definitions/Song"
+              }
+            },
+            "404": {
+              "description": "Song not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update song by ID",
+          "parameters": [
+            {
+              "name": "songId",
+              "in": "path",
+              "type": "integer",
+              "required": true,
+              "description": "ID of the song"
+            },
+            {
+              "name": "song",
+              "in": "body",
+              "description": "Updated song object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Song"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Song updated successfully"
+            },
+            "404": {
+              "description": "Song not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete song by ID",
+          "parameters": [
+            {
+              "name": "songId",
+              "in": "path",
+              "type": "integer",
+              "required": true,
+              "description": "ID of the song"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Song deleted successfully"
+            },
+            "404": {
+              "description": "Song not found"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Song": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "singer": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+  

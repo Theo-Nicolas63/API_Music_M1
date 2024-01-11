@@ -6,10 +6,6 @@
   "info": {
     "description": "API to manage ratings.",
     "title": "middleware/ratings",
-    "contact": {
-      "name": "Justine Bachelard.",
-      "email": "justine.bachelard@uca.fr"
-    },
     "version": "1.0.0"
   },
   "basePath": "/",
