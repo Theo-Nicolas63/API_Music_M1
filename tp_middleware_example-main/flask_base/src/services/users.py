@@ -1,5 +1,6 @@
 import json
 import requests
+from flask import jsonify
 from sqlalchemy import exc
 from marshmallow import EXCLUDE
 from flask_login import current_user
@@ -17,12 +18,19 @@ def get_user(id):
     response = requests.request(method="GET", url=users_url+id)
     return response.json(), response.status_code
 
+def get_users():
+    response = requests.request(method="GET", url=users_url)
+    return response.json(), response.status_code
+ 
 def delete_user(id):
+    print("DEbug serv 1")
     response = requests.request(methode="DELETE", url=users_url+id)
+    print("DEbug serv 2")
     if response.status_code != 204 :
-        print('Error : failed to delete user. Statut code : '+ response.status_code)
-    else :
-        return response.json(), response.status
+       return jsonify({'message': 'User deleted successfully'}), response.status_code
+    else:
+        return jsonify({'error': 'Failed to delete user'}), 204 
+
 
 
 def create_user(user_register):
@@ -47,6 +55,7 @@ def create_user(user_register):
     return response.json(), response.status_code
 
 
+    
 def modify_user(id, user_update):
     # on vérifie que l'utilisateur se modifie lui-même
     if id != current_user.id:
@@ -80,9 +89,9 @@ def modify_user(id, user_update):
     return (response.json(), response.status_code) if response else get_user(id)
 
 
-def get_user_from_db(username):
-    return users_repository.get_user(username)
+def get_user_from_db(name):
+    return users_repository.get_user(name)
 
 
-def user_exists(username):
-    return get_user_from_db(username) is not None
+def user_exists(name):
+    return get_user_from_db(name) is not None

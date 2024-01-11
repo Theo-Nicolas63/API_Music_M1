@@ -52,7 +52,32 @@ def get_user(id):
           - users
     """
     return users_service.get_user(id)
-
+@users.route('/', methods=['GET'])
+def get_users():
+    """
+    ---
+    get:
+        description: Getting all users
+        responses:
+            '200':
+                description: Ok
+                content:
+                    application/json:
+                        schema: List[user]
+                    application/yaml:
+                        schema: List[user]
+            '401':
+                description: Unauthorized
+                content:
+                    application/json:
+                        schema: Unauthorized
+                    application/yaml:
+                        schema: Unauthorized
+        tags:
+            - users
+    """
+    return users_service.get_users()
+  
 @users.route('/<id>', methods=['DELETE'])
 #@login_required
 def delete_user(id):
@@ -94,46 +119,46 @@ def delete_user(id):
     """
     return users_service.delete_user(id)
 
-@users.route('',methods=['POST'])
-#@login_required
-def create_user():
-    """
-    ---
-    post:
-      description: Create a user
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: uuidv4
-          required: true
-          description: UUID of user id
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema: User
-            application/yaml:
-              schema: User
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema: Unauthorized
-            application/yaml:
-              schema: Unauthorized
-        '404':
-          description: Not found
-          content:
-            application/json:
-              schema: NotFound
-            application/yaml:
-              schema: NotFound
-      tags:
-          - users
-    """
-    return users_service.create_user(user_register)
+# @users.route('',methods=['POST'])
+# #@login_required
+# def create_user():
+#     """
+#     ---
+#     post:
+#       description: Create a user
+#       parameters:
+#         - in: path
+#           name: id
+#           schema:
+#             type: uuidv4
+#           required: true
+#           description: UUID of user id
+#       responses:
+#         '200':
+#           description: Ok
+#           content:
+#             application/json:
+#               schema: User
+#             application/yaml:
+#               schema: User
+#         '401':
+#           description: Unauthorized
+#           content:
+#             application/json:
+#               schema: Unauthorized
+#             application/yaml:
+#               schema: Unauthorized
+#         '404':
+#           description: Not found
+#           content:
+#             application/json:
+#               schema: NotFound
+#             application/yaml:
+#               schema: NotFound
+#       tags:
+#           - users
+#     """
+#     return users_service.create_user(user_register)
 
 @users.route('/<id>', methods=['PUT'])
 #@login_required

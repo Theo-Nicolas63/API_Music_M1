@@ -36,7 +36,7 @@ func init() {
 		`CREATE TABLE IF NOT EXISTS users (
 			Id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
 			Name VARCHAR(255) NOT NULL,
-			MusicLiked VARCHAR(255) NOT NULL
+			Username VARCHAR(255) NOT NULL
 		);`,
 	}
 	for _, scheme := range schemes {

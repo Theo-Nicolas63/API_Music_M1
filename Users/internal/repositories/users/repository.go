@@ -23,7 +23,7 @@ func GetAllUsers() ([]models.User, error) {
 	Users := []models.User{}
 	for rows.Next() {
 		var data models.User
-		err = rows.Scan(&data.Id, &data.Name, &data.MusicLiked)
+		err = rows.Scan(&data.Id, &data.Name, &data.Username)
 		if err != nil {
 			return nil, err
 		}
@@ -46,7 +46,7 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	helpers.CloseDB(db)
 
 	var Users models.User
-	err = row.Scan(&Users.Id, &Users.Name, &Users.MusicLiked)
+	err = row.Scan(&Users.Id, &Users.Name, &Users.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func PostUser(Users *models.User) (*models.User, error) {
 		return nil, err
 	}
 
-	_, err = db.Exec("INSERT INTO Users (Id,Name,MusicLiked) VALUES (?,?,?)", randomUUID.String(), Users.Name, Users.MusicLiked)
+	_, err = db.Exec("INSERT INTO Users (Id,Name,Username) VALUES (?,?,?)", randomUUID.String(), Users.Name, Users.Username)
 	helpers.CloseDB(db)
 
 	if err != nil {
