@@ -1,6 +1,7 @@
 from flask import jsonify
 
 # load modules
+from src.routes.songs import songs as songs_route
 from src.routes.users import users as users_route
 from src.routes.auth import auth as auth_route
 from src.routes.ratings import ratings as ratings_route
@@ -14,7 +15,12 @@ app = config_app()
 # register routes
 app.register_blueprint(auth_route, url_prefix="/")
 app.register_blueprint(users_route, url_prefix="/users")
+<<<<<<< HEAD
 app.register_blueprint(ratings_route, url_prefix="/ratings")
+=======
+app.register_blueprint(songs_route,url_prefix="/Songs")
+
+>>>>>>> Songs
 
 # allows to generate Swagger doc for all documented functions
 with app.test_request_context():
@@ -37,7 +43,6 @@ def create_swagger_spec():
 
 # register documentation route (see in browser at /api/docs)
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
-
 
 # python main entrance program
 if __name__ == "__main__":
