@@ -23,7 +23,7 @@ func GetAllUsers() ([]models.User, error) {
 	Users := []models.User{}
 	for rows.Next() {
 		var data models.User
-		err = rows.Scan(&data.Id, &data.Name, &data.Username)
+		err = rows.Scan(&data.Id, &data.Name, &data.Password, &data.Username)
 		if err != nil {
 			return nil, err
 		}
@@ -46,7 +46,7 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	helpers.CloseDB(db)
 
 	var Users models.User
-	err = row.Scan(&Users.Id, &Users.Name, &Users.Username)
+	err = row.Scan(&Users.Id, &Users.Name, &Users.Password, &Users.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func PostUser(Users *models.User) (*models.User, error) {
 		return nil, err
 	}
 
-	_, err = db.Exec("INSERT INTO Users (Id,Name,Username) VALUES (?,?,?)", randomUUID.String(), Users.Name, Users.Username)
+	_, err = db.Exec("INSERT INTO Users (Id,Name,Password,Username) VALUES (?,?,?,?)", randomUUID.String(), Users.Name, Users.Password, Users.Username)
 	helpers.CloseDB(db)
 
 	if err != nil {
@@ -94,7 +94,7 @@ func PutUser(Users *models.User) (*models.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = db.Exec("UPDATE Users SET name=? WHERE id=?", Users.Name, Users.Id.String())
+	_, err = db.Exec("UPDATE Users SET name=?, username= ? WHERE id=?", Users.Name, Users.Username, Users.Id.String())
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err

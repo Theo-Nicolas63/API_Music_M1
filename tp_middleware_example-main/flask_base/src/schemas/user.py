@@ -5,8 +5,8 @@ from marshmallow import Schema, fields, validates_schema, ValidationError
 class UserSchema(Schema):
     id = fields.String(description="UUID")
     inscription_date = fields.DateTime(description="Inscription date")
-    name = fields.String(description="Name")
-    username = fields.String(description="Username")
+    name = fields.String(description="name")
+    username = fields.String(description="username")
     
     @staticmethod
     def is_empty(obj):
@@ -17,9 +17,9 @@ class UserSchema(Schema):
 
 
 class BaseUserSchema(Schema):
-    name = fields.String(description="Name")
-    password = fields.String(description="Password")
-    username = fields.String(description="Username")
+    name = fields.String(description="name")
+    password = fields.String(description="password")
+    username = fields.String(description="username")
 
 
 # Schéma utilisateur de modification (name, username, password)
