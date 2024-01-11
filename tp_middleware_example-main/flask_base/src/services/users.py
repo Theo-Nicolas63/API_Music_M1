@@ -10,7 +10,7 @@ from src.models.http_exceptions import *
 import src.repositories.users as users_repository
 
 
-users_url = "http://localhost:4000/users/"  # URL de l'API users (golang)
+users_url = "http://localhost:8080/users/"  # URL de l'API users (golang)
 
 
 def get_user(id):
@@ -18,9 +18,12 @@ def get_user(id):
     return response.json(), response.status_code
 
 def delete_user(id):
-    response = requests.request(method="DELETE", url=user_url+id)
+    response = requests.request(methode="DELETE", url=users_url+id)
     if response.status_code != 204 :
-        return()
+        print('Error : failed to delete user. Statut code : '+ response.status_code)
+    else :
+        return response.json(), response.status
+
 
 def create_user(user_register):
     # on récupère le modèle utilisateur pour la BDD

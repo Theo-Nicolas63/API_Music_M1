@@ -13,7 +13,7 @@ users = Blueprint(name="users", import_name=__name__)
 
 
 @users.route('/<id>', methods=['GET'])
-@login_required
+#@login_required
 def get_user(id):
     """
     ---
@@ -53,9 +53,90 @@ def get_user(id):
     """
     return users_service.get_user(id)
 
+@users.route('/<id>', methods=['DELETE'])
+#@login_required
+def delete_user(id):
+    """
+    ---
+    get:
+      description: Delete a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of user id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+      tags:
+          - users
+    """
+    return users_service.delete_user(id)
+
+@users.route('',methods=['POST'])
+#@login_required
+def create_user():
+    """
+    ---
+    post:
+      description: Create a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of user id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+      tags:
+          - users
+    """
+    return users_service.create_user(user_register)
 
 @users.route('/<id>', methods=['PUT'])
-@login_required
+#@login_required
 def put_user(id):
     """
     ---
